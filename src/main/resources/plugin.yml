@@ -1,0 +1,13 @@
+name: LevelSystem
+version: '${project.version}'
+main: me.foxyg3n.levelsystem.LevelSystem
+api-version: 1.19
+softdepend: [ Runy, PlaceholderAPI, MythicMobs ]
+
+permissions:
+  levelsystem.command.level:
+    description: Allows the player to use the /level command
+    default: op
+  levelsystem.command.test:
+    description: Allows the player to use the /test command
+    default: op
