@@ -2,9 +2,12 @@ package me.foxyg3n.levelsystem.config;
 
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
+import eu.okaeri.configs.annotation.Exclude;
+import me.foxyg3n.levelsystem.LevelSystem;
 import me.foxyg3n.levelsystem.data.entities.MaterialOrEntity;
 import me.foxyg3n.levelsystem.data.entities.LevelInfo;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 
 import java.time.Duration;
@@ -22,6 +25,17 @@ public class Config extends OkaeriConfig {
     @Comment("")
     @Comment("Co jaki czas mają być zapisywane poziomy graczy do pliku")
     public Duration saveDataInvterval = Duration.ofMinutes(5);
+
+    public static class ExpLimitConfig extends OkaeriConfig {
+        @Exclude
+        public static final NamespacedKey EXP_LIMIT_KEY = new NamespacedKey(LevelSystem.getInstance(), "exp_limit");
+        public boolean enabled = true;
+        public double expMultiplier = 0.5;
+    }
+
+    @Comment("")
+    @Comment("Obniża otrzymywane doświadczenie z mobów ze spawnerów")
+    public ExpLimitConfig expLimit = new ExpLimitConfig();
 
     @Comment("")
     public List<LevelInfo> levels = new ArrayList<>();

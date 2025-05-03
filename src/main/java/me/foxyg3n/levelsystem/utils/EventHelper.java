@@ -23,7 +23,6 @@ public class EventHelper {
         expGained = expGainEvent.getGainedExp();
 
         playerLevelInfo.addExperience(expGained);
-        playerLevelManager.save();
 
         ArmorStandDisplay.displayExpGain(displayLocation, expGained);
     }

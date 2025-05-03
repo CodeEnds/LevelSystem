@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class RunesUtils {
 
-    public static boolean isRunesBartActive(Player player) {
+    public static boolean isRunesBarActive(Player player) {
         return Runy.isActionBarActive.containsKey(player);
     }
 

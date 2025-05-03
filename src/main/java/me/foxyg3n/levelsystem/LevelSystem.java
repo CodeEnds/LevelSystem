@@ -83,7 +83,7 @@ public final class LevelSystem extends JavaPlugin {
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, () -> {
             for(Player player : Bukkit.getOnlinePlayers()) {
-                if(Bukkit.getPluginManager().isPluginEnabled("Runy") && RunesUtils.isRunesBartActive(player)) continue;
+                if(Bukkit.getPluginManager().isPluginEnabled("Runy") && RunesUtils.isRunesBarActive(player)) continue;
                 PlayerLevelInfo playerLevelInfo = playerLevelManager.getPlayerLevelInfo(player);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, ActionBarHelper.getActionBarMessage(playerLevelInfo));
             }
@@ -119,7 +119,8 @@ public final class LevelSystem extends JavaPlugin {
                     .add(BlockBreakListener.class)
                     .add(PlayerFishListener.class)
                     .add(MobDeathListener.class)
-                    .add(PlayerBreakPlantListener.class);
+                    .add(PlayerBreakPlantListener.class)
+                    .add(MobSpawnListener.class);
 
             if(Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
                 listeners.add(MythicMobDeathListener.class);
