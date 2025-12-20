@@ -8,6 +8,8 @@ import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.json.gson.JsonGsonConfigurer;
 import eu.okaeri.configs.serdes.commons.SerdesCommons;
 import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
+import me.foxyg3n.foxlib.bukkit.services.mining.MiningService;
+import me.foxyg3n.foxlib.bukkit.services.mining.MiningServiceImpl;
 import me.foxyg3n.foxlib.common.FoxLogger;
 import me.foxyg3n.levelsystem.commands.Command;
 import me.foxyg3n.levelsystem.commands.LevelCommand;
@@ -23,6 +25,7 @@ import me.foxyg3n.levelsystem.level.PlayerLevelInfo;
 import me.foxyg3n.levelsystem.level.PlayerLevelManager;
 import me.foxyg3n.levelsystem.listeners.*;
 import me.foxyg3n.levelsystem.utils.ActionBarHelper;
+import me.foxyg3n.levelsystem.utils.MiningServiceUtils;
 import me.foxyg3n.levelsystem.utils.RunesUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
@@ -43,6 +46,7 @@ public final class LevelSystem extends JavaPlugin {
     private Config pluginConfig;
     private PlayerLevelManager playerLevelManager;
     private PersistentDataHandler persistentDataHandler;
+    private MiningService miningService;
 
     @Override
     public void onLoad() {
@@ -92,6 +96,9 @@ public final class LevelSystem extends JavaPlugin {
         persistentDataHandler = new PersistentDataHandler();
         persistentDataHandler.startHandler();
 
+        miningService = MiningServiceImpl.initialize(this);
+        miningService.registerModifier(1, MiningServiceUtils::handleBlockBreakExpGain);
+
         CommandAPI.onEnable();
 
         try {
@@ -116,7 +123,6 @@ public final class LevelSystem extends JavaPlugin {
 
             listeners
                     .add(ExpGainListener.class)
-                    .add(BlockBreakListener.class)
                     .add(PlayerFishListener.class)
                     .add(MobDeathListener.class)
                     .add(PlayerBreakPlantListener.class)
@@ -156,6 +162,10 @@ public final class LevelSystem extends JavaPlugin {
 
     public PlayerLevelManager getPlayerLevelManager() {
         return playerLevelManager;
+    }
+
+    public MiningService getMiningService() {
+        return miningService;
     }
 
     public static LevelSystem getInstance() {

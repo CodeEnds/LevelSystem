@@ -91,6 +91,7 @@
             <groupId>me.foxyg3n</groupId>
             <artifactId>FoxLib</artifactId>
             <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

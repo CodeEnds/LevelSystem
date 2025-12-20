@@ -1,6 +1,7 @@
 package me.foxyg3n.levelsystem.listeners;
 
 import me.foxyg3n.foxlib.bukkit.utils.LocationUtils;
+import me.foxyg3n.foxlib.bukkit.utils.PlayerUtils;
 import me.foxyg3n.levelsystem.LevelSystem;
 import me.foxyg3n.levelsystem.utils.EventHelper;
 import org.bukkit.Material;
@@ -28,8 +29,8 @@ public class PlayerBreakPlantListener implements Listener {
 
         if(!plants.containsKey(block.getType())) return;
 
-        ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
-        if(itemInMainHand.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) return;
+        ItemStack tool = PlayerUtils.getPlayerTool(player);
+        if(tool.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) return;
 
         if(block.getBlockData() instanceof Ageable) {
             Ageable ageable = (Ageable) block.getBlockData();
