@@ -21,15 +21,10 @@ import me.foxyg3n.levelsystem.config.serdes.PlayerLevelInfoSerializer;
 import me.foxyg3n.levelsystem.config.serdes.StringOfflinePlayerTransformer;
 import me.foxyg3n.levelsystem.data.PersistentDataHandler;
 import me.foxyg3n.levelsystem.hooks.papi.LevelSystemPlaceholders;
-import me.foxyg3n.levelsystem.level.PlayerLevelInfo;
 import me.foxyg3n.levelsystem.level.PlayerLevelManager;
 import me.foxyg3n.levelsystem.listeners.*;
-import me.foxyg3n.levelsystem.utils.ActionBarHelper;
 import me.foxyg3n.levelsystem.utils.MiningServiceUtils;
-import me.foxyg3n.levelsystem.utils.RunesUtils;
-import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -85,13 +80,13 @@ public final class LevelSystem extends JavaPlugin {
             it.load(true);
         });
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, () -> {
+        /*Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, () -> {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 if(Bukkit.getPluginManager().isPluginEnabled("Runy") && RunesUtils.isRunesBarActive(player)) continue;
                 PlayerLevelInfo playerLevelInfo = playerLevelManager.getPlayerLevelInfo(player);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, ActionBarHelper.getActionBarMessage(playerLevelInfo));
             }
-        }, 0, 20);
+        }, 0, 20); */
 
         persistentDataHandler = new PersistentDataHandler();
         persistentDataHandler.startHandler();
@@ -143,6 +138,27 @@ public final class LevelSystem extends JavaPlugin {
         }
 
         logger.info("Enabling LevelSystem v" + getDescription().getVersion());
+
+        MythicMobDeathListener.loadMythicMobs();
+
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            // Przeszukujemy wszystkie załadowane światy
+            for (org.bukkit.World world : Bukkit.getWorlds()) {
+                // Przeszukujemy tylko załadowane encje typu ArmorStand
+                for (org.bukkit.entity.ArmorStand armorStand : world.getEntitiesByClass(org.bukkit.entity.ArmorStand.class)) {
+
+                    String name = armorStand.getCustomName();
+
+                    // Sprawdzamy, czy stojak posiada nazwę
+                    if (name != null) {
+                        // Sprawdzamy, czy nazwa zaczyna się od żółtego koloru i kończy na " EXP"
+                        if (name.startsWith(org.bukkit.ChatColor.YELLOW.toString()) && name.endsWith(" EXP")) {
+                            armorStand.remove();
+                        }
+                    }
+                }
+            }
+        }, 0L, 20L * 60L * 5L);
 
     }
 

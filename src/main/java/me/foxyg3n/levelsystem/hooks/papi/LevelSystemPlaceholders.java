@@ -63,6 +63,14 @@ public class LevelSystemPlaceholders extends PlaceholderExpansion {
                 double progress = exp / requiredExperience;
 
                 return getProgressBar(progress);
+            case "nextlevelexp":
+                LevelInfo nextLevelInfo1 = playerLevelInfo.getNextLevelInfo();
+                if(nextLevelInfo1 == null) {
+                    return "";
+                }
+                double requiredExperience1 = nextLevelInfo1.getRequiredExperience();
+                String decimal = decimalFormat.format(requiredExperience1);
+                return "/ " + decimal;
         }
         return null;
     }
