@@ -30,7 +30,7 @@ public class PlayerBreakPlantListener implements Listener {
         if(!plants.containsKey(block.getType())) return;
 
         ItemStack tool = PlayerUtils.getPlayerTool(player);
-        if(tool.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) return;
+        if (tool != null && tool.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) return;
 
         if(block.getBlockData() instanceof Ageable) {
             Ageable ageable = (Ageable) block.getBlockData();
